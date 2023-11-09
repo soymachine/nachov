@@ -1,0 +1,40 @@
+---
+import Header from '../components/Header.astro';
+import VideoSection from '../components/VideoSection.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Nacho Valgañón">
+	<Header />
+	
+	<main class="snap-y snap-mandatory relative w-full h-screen overflow-auto">
+		<div class="snap-center">
+			<VideoSection videoURL="6_VERY_PURPIRINEU.mp4" posterNum="1" />
+		</div>
+		<div class="snap-center">
+			<VideoSection videoURL="3_COMPLOT.mp4" posterNum="2" />
+		</div>
+		<div class="snap-center">
+			<VideoSection videoURL="7_Malquerida.mp4" posterNum="3" />
+		</div>
+		<div class="snap-center">
+			<VideoSection videoURL="1_Jazz_Fest_Voll_Damm.mp4" posterNum="4" />
+		</div>
+		<div class="snap-center">
+			<VideoSection videoURL="2_BockDamm.mp4" posterNum="5" />
+		</div>
+		<div class="snap-center">
+			<VideoSection videoURL="5_royal_caribbean_el_mar_te_llama.mp4" posterNum="6" />
+		</div>
+		<div class="snap-center">
+			<VideoSection videoURL="4_generalitat_residus.mp4" posterNum="7" />
+		</div>
+		
+		
+	</main>
+	
+</Layout>
+
+<style>
+	
+</style>
