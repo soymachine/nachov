@@ -1,13 +1,15 @@
 ---
 import Header from '../components/Header.astro';
 import VideoSection from '../components/VideoSection.astro';
+import IntroSection from '../components/IntroSection.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Nacho Valgañón">
-	<Header />
-	
 	<main class="snap-y snap-mandatory relative w-full h-screen overflow-auto">
+		<div class="snap-center">
+			<IntroSection />
+		</div>
 		<div class="snap-center">
 			<VideoSection videoURL="6_VERY_PURPIRINEU.mp4" posterNum="1" />
 		</div>
