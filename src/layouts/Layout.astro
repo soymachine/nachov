@@ -21,6 +21,7 @@ const { title } = Astro.props;
 	</body>
 </html>
 <style is:global>
+
 	:root {
 		--accent: 136, 58, 234;
 		--accent-light: 224, 204, 250;
@@ -31,11 +32,34 @@ const { title } = Astro.props;
 			rgb(var(--accent-light)) 30%,
 			white 60%
 		);
+		scrollbar-color: transparent transparent;
+	}
+
+	::-webkit-scrollbar{
+		width: 10px;
+		background:transparent;
+	}
+
+	::-webkit-scrollbar-track {
+		background:transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: #d6dee1;
+		border-radius: 10px;
+		border: 3px solid transparent;
+		background-clip: content-box;
 	}
 
 	@font-face {
 		font-family: "Baskerville-Regular";
 		src: url("/fonts/LibreBaskerville-Regular.ttf") format("truetype");
+	}
+
+	@media (max-width: 400px) {
+    	#nacho-title {
+			font-size: 2em;
+		}
 	}
     
 </style>

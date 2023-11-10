@@ -1,5 +1,4 @@
 ---
-import Header from '../components/Header.astro';
 import VideoSection from '../components/VideoSection.astro';
 import IntroSection from '../components/IntroSection.astro';
 import Layout from '../layouts/Layout.astro';
@@ -40,3 +39,181 @@ import Layout from '../layouts/Layout.astro';
 <style>
 	
 </style>
+<script>
+
+(function(){
+	const observerOptions = {
+		root: null,
+		rootMargin: '0px',
+		threshold:0.9
+	}
+
+	let currentVideo = null
+
+	const videos = document.querySelectorAll("video");
+	videos.forEach(video => {
+		video.addEventListener("play", (event) => {
+			if(currentVideo != null){
+				currentVideo.pause()
+			}
+
+			currentVideo = video
+		})
+	})
+
+    const observer = new IntersectionObserver(entries => {
+        // Loop over the entries
+        entries.forEach(entry => {
+          // If the element is visible
+          if (entry.isIntersecting) {
+            // Add the animation class  
+			
+			if(currentVideo != null){
+				currentVideo.pause()
+			}
+
+			currentVideo = null
+          }
+        });
+      }, observerOptions);
+      
+	var targets = [
+	Array.from(document.querySelectorAll('video')),
+	].flat();
+	targets.forEach((target) => observer.observe(target));
+
+
+	/* PIJADA MÁXIMA EN LA INTRO */	
+	let isIntro = false
+	let destinationMouseX = 0
+	let destinationMouseY = 0
+	let currentMouseX = 0
+	let currentMouseY = 0
+	const MAX_DIST_LOGO = 40
+	const MAX_DIST_TITLE = 20
+	const WINDOW_W = window.innerWidth
+	const WINDOW_H = window.innerHeight
+	const MAX_W = WINDOW_W * .5
+	const MAX_H = WINDOW_H * .5
+	const SPEED = 10
+	const $logo = document.querySelector("#nacho-logo") as HTMLElement
+	const $title = document.querySelector("#nacho-title") as HTMLElement
+	//const $test = document.querySelector("#test") as HTMLElement
+	const logoInitPos = {
+		x:$logo.getBoundingClientRect().x + ($logo.getBoundingClientRect().width * .5),
+		y:$logo.getBoundingClientRect().y + ($logo.getBoundingClientRect().height * .5),
+	}
+	
+	const titleBounding = $title.getBoundingClientRect()
+
+	const titleInitPos = {
+		x:$title.getBoundingClientRect().x + ($title.getBoundingClientRect().width * .5),
+		y:$title.getBoundingClientRect().y + ($title.getBoundingClientRect().height * .5),
+	}
+
+	console.log($logo.getBoundingClientRect())
+	console.log(window.innerWidth)
+	console.log(window.innerHeight)
+
+	const observerintro = new IntersectionObserver(entries => {
+		entries.forEach(entry => {
+          
+          if (entry.isIntersecting) {
+			isIntro = true
+          }else{
+			isIntro = false
+		  }
+
+        });
+	}, observerOptions);
+	observerintro.observe(document.querySelector("#intro") as Element)
+
+	function loop(timeStamp) {
+		
+		if(isIntro){
+			const dX = destinationMouseX - currentMouseX;
+			const dY = destinationMouseY - currentMouseY;
+			
+			currentMouseX += (dX / SPEED);
+			currentMouseY += (dY / SPEED);
+
+			//$test.style.setProperty("top", `${currentMouseY}px`)
+			//$test.style.setProperty("left", `${currentMouseX}px`)
+
+			// Distancia respecto al title
+			const titleFromMousePositions = {
+				x1: currentMouseX, y1: currentMouseY,
+				x2: titleInitPos.x, y2: titleInitPos.y,
+				isDeg : false
+			}
+
+			// Distancia respecto al logo
+			const logoFromMousePositions = {
+				x1: currentMouseX, y1: currentMouseY,
+				x2: logoInitPos.x, y2: logoInitPos.y,
+				isDeg : false
+			}
+			
+			let distFromTitle = distance(titleFromMousePositions)
+			let angleFromTitle = angle(titleFromMousePositions)
+			
+			let distFromLogo = distance(logoFromMousePositions)
+			let angleFromLogo = angle(logoFromMousePositions)
+
+			let percentX = distFromTitle / MAX_W
+			const radiusTitle = percentX * MAX_DIST_TITLE
+
+			let logoPercentX = distFromLogo / MAX_W
+			const radiusLogo = logoPercentX * MAX_DIST_LOGO
+			
+
+			const _xTitle = Math.cos(angleFromTitle) * radiusTitle
+			const _yTitle = Math.sin(angleFromTitle) * radiusTitle
+
+			$title.style.setProperty("left", `${_xTitle}px`)
+			$title.style.setProperty("top", `${_yTitle}px`)
+
+			const _xLogo = Math.cos(angleFromLogo) * radiusLogo
+			const _yLogo = Math.sin(angleFromLogo) * radiusLogo
+
+			$logo.style.setProperty("left", `${_xLogo}px`)
+			$logo.style.setProperty("top", `${_yLogo}px`)
+
+			// console.log(_xLogo, _yLogo)
+		}
+
+		window.requestAnimationFrame(loop);
+	}
+	
+	window.requestAnimationFrame(loop);
+
+	document.querySelector("body").onmousemove = handleMouseMove;
+
+	function handleMouseMove(e){
+		destinationMouseX = (e.pageX )
+		destinationMouseY = (e.pageY)
+	}
+
+	function distance({x1, y1, x2, y2}){
+		var a = x1 - x2;
+		var b = y1 - y2;
+
+		var c = Math.sqrt( a*a + b*b );
+		return c
+	}
+
+	function angle({x1, y1, x2, y2, isDeg = true}){
+		var angleRad = Math.atan2(y2 - y1, x2 - x1);
+
+		if(isDeg){
+			var angleDeg = angleRad * 180 / Math.PI;
+			return angleDeg
+		}else{
+			return angleRad
+		}
+	}
+})();
+
+	
+
+  </script>
