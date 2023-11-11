@@ -10,25 +10,25 @@ import Layout from '../layouts/Layout.astro';
 			<IntroSection />
 		</div>
 		<div class="snap-center">
-			<VideoSection videoURL="6_VERY_PURPIRINEU.mp4" posterNum="1" />
+			<VideoSection videoURL="6_VERY_PURPIRINEU.mp4" posterNum="1" title="Veri" subtitle="PUR PRINEU" />
 		</div>
 		<div class="snap-center">
-			<VideoSection videoURL="3_COMPLOT.mp4" posterNum="2" />
+			<VideoSection videoURL="3_COMPLOT.mp4" posterNum="2" title="Complot IPA" subtitle="CAMPAÑA COLLITA 2022" />
 		</div>
 		<div class="snap-center">
-			<VideoSection videoURL="7_Malquerida.mp4" posterNum="3" />
+			<VideoSection videoURL="7_Malquerida.mp4" posterNum="3" title="Malquerida" />
 		</div>
 		<div class="snap-center">
-			<VideoSection videoURL="1_Jazz_Fest_Voll_Damm.mp4" posterNum="4" />
+			<VideoSection videoURL="1_Jazz_Fest_Voll_Damm.mp4" posterNum="4" title="Voll-Damm" subtitle="JAZZ" />
 		</div>
 		<div class="snap-center">
-			<VideoSection videoURL="2_BockDamm.mp4" posterNum="5" />
+			<VideoSection videoURL="2_BockDamm.mp4" posterNum="5" title="Bock Damm" />
 		</div>
 		<div class="snap-center">
-			<VideoSection videoURL="5_royal_caribbean_el_mar_te_llama.mp4" posterNum="6" />
+			<VideoSection videoURL="5_royal_caribbean_el_mar_te_llama.mp4" posterNum="6" title="Royal Caribbean" subtitle="EL MAR TE LLAMA" />
 		</div>
 		<div class="snap-center">
-			<VideoSection videoURL="4_generalitat_residus.mp4" posterNum="7" />
+			<VideoSection videoURL="4_generalitat_residus.mp4" posterNum="7" title="Generalitat de Catalunya" subtitle="CAMPAÑA RESIDUS"/>
 		</div>
 		
 		
@@ -52,14 +52,27 @@ import Layout from '../layouts/Layout.astro';
 
 	const videos = document.querySelectorAll("video");
 	videos.forEach(video => {
+
+		const videoID = video.getAttribute("id").split("-")[1]
+		const $content = document.querySelector(`#content-${videoID}`) as HTMLElement;
+		console.log(videoID)
 		video.addEventListener("play", (event) => {
-			if(currentVideo != null){
+			if(currentVideo != null && currentVideo != video){
+				console.log("pause de un video?")
 				currentVideo.pause()
 			}
 
+			$content.style.setProperty("opacity", "0")
+
 			currentVideo = video
 		})
+
+		video.addEventListener("pause", (event) => {
+			$content.style.setProperty("opacity", "1")
+		})
 	})
+
+
 
     const observer = new IntersectionObserver(entries => {
         // Loop over the entries

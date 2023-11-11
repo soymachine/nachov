@@ -1,9 +1,20 @@
 ---
-const {videoURL, posterNum} = Astro.props
+const {videoURL, posterNum, title, subtitle} = Astro.props
 ---
 <section class="bg-slate-900 h-screen w-[100%] overflow-hidden relative z-10">
     <div class="absolute top-0 bottom-0 h-full w-screen">
-        <video id=`video-${posterNum}` class="video object-center object-cover h-full w-screen" controls poster=`/imgs/preview_video_${posterNum}.jpg` >
+        <div id=`content-${posterNum}` class="text-white absolute flex flex-wrap flex-row content-end h-full w-full pr-[50px] pb-[180px] pl-[180px] max-[1330px]:pl-[100px] max-[1024px]:pl-[50px] bg-black/50 transition-all duration-1000">
+            <div  class="">
+                <div class="text-[85px] max-[1330px]:text-[75px] max-[1024px]:text-[45px] font-bold">{title}</div>
+                {
+                    subtitle && (
+                    <div class="text-[70px] max-[1330px]:text-[50px] max-[1024px]:text-[30px] ">//{subtitle}</div>
+                    )
+                }
+            </div>
+            
+        </div>
+        <video id=`video-${posterNum}` class="video object-center object-cover h-full w-screen" controls poster=`/imgs/textless/preview_video_${posterNum}.jpg` >
             <source src=`https://nachov.com/assets/${videoURL}` type="video/mp4">
         </video>
     </div>
